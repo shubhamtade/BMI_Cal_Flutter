@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reuseble_Card.dart';
 import 'constants.dart';
+import 'result.dart';
+import 'brain.dart';
 
 enum Gender {
   male,
@@ -18,6 +20,8 @@ class _InputPageState extends State<InputPage> {
   Color femaleCardColor = kInactiveContainerColor;
 
   int height = 180;
+  int weight = 50;
+  int age = 18;
 
   void updateCardColor(Gender selectGender) {
     if (selectGender == Gender.male) {
@@ -158,29 +162,6 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ],
                   ),
-                  // SliderTheme(
-                  //   data: SliderThemeData(
-                  //     thumbShape: RoundRangeSliderThumbShape(
-                  //       enabledThumbRadius: 15.0,
-                  //     ),
-                  //   ),
-                  //   child: Slider(
-                  //     value: height.toDouble(),
-                  //     onChanged: (double newValue) {
-                  //       setState(
-                  //         () {
-                  //           height = newValue.toInt();
-                  //         },
-                  //       );
-                  //     },
-                  //     thumbColor: Color(0xFFEB1555),
-                  //     activeColor: Color(0xFFFFFFFF),
-                  //     inactiveColor: Color(0xFF8D8E98),
-                  //     min: 120,
-                  //     max: 220,
-                  //   ),
-                  // ),
-
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
                       activeTrackColor: Color(0xFFEB1555),
@@ -217,23 +198,153 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: ReusebleCard(
-                    colour: kActiveContainerColor,
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'WEIGHT',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    weight--;
+                                  });
+                                },
+                                backgroundColor: Color(0xFF4C4F5E),
+                                child: Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    weight++;
+                                  });
+                                },
+                                backgroundColor: Color(0xFF4C4F5E),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF1D1E33),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: ReusebleCard(
-                    colour: kActiveContainerColor,
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                                backgroundColor: Color(0xFF4C4F5E),
+                                child: Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                                backgroundColor: Color(0xFF4C4F5E),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF1D1E33),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
           Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: kBottomContainerHight,
+            child: GestureDetector(
+              onTap: () {
+                setState(
+                  () {
+                    Brain calc = Brain(height: height, weight: weight);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                                bmiResult: calc.calcutaleBMI(),
+                                resultText: calc.getResult(),
+                                interpretation: calc.getInterpretation(),
+                              )),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'CLACULATE',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                color: kBottomContainerColor,
+                margin: EdgeInsets.only(top: 10),
+                width: double.infinity,
+                height: kBottomContainerHight,
+              ),
+            ),
           ),
         ],
       ),
